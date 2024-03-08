@@ -2,8 +2,9 @@ name: Build and Publish APK
 
 on:
   push:
-    branches:
-      - main  # Adjust branch name as needed
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
 jobs:
   build:
