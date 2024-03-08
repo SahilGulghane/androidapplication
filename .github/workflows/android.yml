@@ -28,13 +28,13 @@ jobs:
       run: ./gradlew build
 
     - name: Copy APK artifact
-      run: cp app/build/outputs/apk/release/app-release-unsigned.apk $GITHUB_WORKSPACE/app-release-unsigned.apk
+      run: cp app/build/outputs/apk/release/app-release-unsigned.apk $GITHUB_WORKSPACE/app-release.apk
 
     - name: Publish Build Artifact
       uses: actions/upload-artifact@v2
       with:
         name: app-release
-        path: $GITHUB_WORKSPACE/app-release-unsigned.apk
+        path: $GITHUB_WORKSPACE/app-release.apk
 
   publish:
     needs: build
@@ -54,4 +54,4 @@ jobs:
           aws-region: us-east-2
 
       - name: Copy APK to S3
-        run: aws s3 cp $GITHUB_WORKSPACE/app-release-unsigned.apk s3://aaradhyabodadebucket/apps/
+        run: aws s3 cp $GITHUB_WORKSPACE/app-release.apk s3://aaradhyabodadebucket/apps/
