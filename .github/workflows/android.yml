@@ -38,7 +38,13 @@ jobs:
         with:
           name: app-release
           path: app-release
+      # Manual approval step
+      - name: Request approval
+        uses: mxschmitt/action-tmate@v3
+        with:
+          session-name: ${{ github.run_id }}
       - name: Upload APK to AWS S3
+        if: github.event_name == 'workflow_run' && github.event.workflow_run.event == 'approval'
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
