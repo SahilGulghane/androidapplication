@@ -24,7 +24,11 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
-
+jobs:
+  needs: build
+  publish:
+    runs-on: ubuntu-latest
+    steps:
     - name: Upload APK to AWS S3
       uses: aws-actions/configure-aws-credentials@v2
       with:
