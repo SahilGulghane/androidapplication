@@ -24,14 +24,11 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
-      
-    - name: Copy build artifacts to the current directory
-      run: |
-        cp app/build/outputs/apk/release/app-release-unsigned.apk .
 
-    - name: Publish Build Artifacts
-      uses: actions/upload-artifact@v2
+    - name: Upload APK to AWS S3
+      uses: aws-actions/configure-aws-credentials@v2
       with:
-        name: master artifacts
-        path: |
-          app-release-unsigned.apk
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: <east-us-2>
+    - run: aws s3 cp app/build/outputs/apk/release/app-release-unsigned.apk s3://aaradhyabodadebucket/apps/ --acl public-read
